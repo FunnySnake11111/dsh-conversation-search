@@ -22,10 +22,10 @@ Conversation search plugin for DeepSeek Harness Desktop: search the current and 
 git clone https://github.com/FunnySnake11111/dsh-conversation-search.git
 dsh plugin --profile desktop add link:<克隆目录>
 
-# 方式二：使用本仓库自带脚本（含宿主运行检测、BOM 自愈、profile 备份）
-G:\Deepseek Harness\dsh-conversation-search\install-conversation-search.ps1
+# 方式二：使用仓库自带脚本（在克隆目录内运行；含宿主运行检测、BOM 自愈、profile 备份）
+.\install.ps1
 # 回滚：
-G:\Deepseek Harness\rollback-conversation-search.ps1
+.\rollback.ps1
 ```
 
 安装后**完全重启 DSH** 生效（宿主半只在进程启动时加载一次，只刷新页面不够——面板状态栏的版本号可用来确认宿主半是否已重载）。
