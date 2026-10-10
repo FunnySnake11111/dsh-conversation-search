@@ -18,11 +18,14 @@ Conversation search plugin for DeepSeek Harness Desktop: search the current and 
 ## 安装
 
 ```powershell
-# 方式一：本地源码 link 安装（开发/本机使用，DSH 桌面完全退出后运行）
+# 方式一：从 npm 安装（推荐，DSH 桌面完全退出后运行）
+dsh plugin --profile desktop add dsh-conversation-search
+
+# 方式二：本地源码 link 安装（开发/本机使用）
 git clone https://github.com/FunnySnake11111/dsh-conversation-search.git
 dsh plugin --profile desktop add link:<克隆目录>
 
-# 方式二：使用仓库自带脚本（在克隆目录内运行；含宿主运行检测、BOM 自愈、profile 备份）
+# 方式三：使用仓库自带脚本（在克隆目录内运行；含宿主运行检测、BOM 自愈、profile 备份）
 .\install.ps1
 # 回滚：
 .\rollback.ps1
