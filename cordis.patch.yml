@@ -1,0 +1,11 @@
+# dsh-conversation-search bundle patch.
+# Inserts this plugin's host half (lib/index.js) and makes the browser half
+# available at /plugins/dsh-conversation-search/client.js. The host half takes
+# the official session-query service (ctx.sessionQuery) via inject — on this
+# dsh build the core bundle already mounts dsh-session-query-sqlite as the
+# sessionQuery provider, so inserting @deepseek-ai/dsh-session-query here as
+# well registers the service twice and fails the whole boot. Do not re-add
+# that row. Read-only plugin, no extra config required.
+- insert:
+    - id: conversation-search
+      name: dsh-conversation-search

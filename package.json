@@ -1,0 +1,57 @@
+{
+  "name": "dsh-conversation-search",
+  "version": "0.2.1",
+  "description": "DeepSeek Harness 对话内容搜索插件：在 Web UI 内搜索当前与全部历史会话的消息文本，点击结果自动切换/滚动定位到命中消息并高亮，面板内展示命中消息的前后上下文。Conversation full-text search for DeepSeek Harness: search the current and all historical sessions, click a hit to auto-navigate, scroll to and highlight the matching message, with bounded before/after context in the panel.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "lib",
+    "locale",
+    "icon.svg",
+    "cordis.patch.yml"
+  ],
+  "icon": "./icon.svg",
+  "meta": {
+    "title": "对话内容搜索",
+    "description": "搜索对话内消息并自动定位到上下文（Ctrl+Shift+F）。Search conversation messages and jump to the matching context."
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "search",
+    "conversation",
+    "session",
+    "full-text"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FunnySnake11111/dsh-conversation-search.git"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": []
+    },
+    "compatibility": {
+      "dsh": ">=0.2.0-rc.1"
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

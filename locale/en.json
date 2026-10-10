@@ -1,0 +1,4 @@
+{
+  "title": "Conversation Search",
+  "description": "Search message text across the current and all historical sessions inside the chat UI (Ctrl+Shift+F). Clicking a result switches the session, scrolls to and highlights the matching message, and shows bounded before/after context in the panel. Built on the official session-query service (ctx.sessionQuery): read-only, no daemons."
+}
