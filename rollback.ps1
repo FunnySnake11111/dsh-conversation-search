@@ -18,11 +18,18 @@ if ($running) {
 Push-Location $ProfileDir
 Write-Host "=== dsh-conversation-search 回滚 ===" -ForegroundColor Cyan
 
-# 1) bundles 移除
-$raw = Get-Content "package.json" -Raw -Encoding UTF8
-$raw2 = $raw -replace '(\s*,?)\s*"dsh-conversation-search"(?=,)', ''
-if ($raw2 -eq $raw) { $raw2 = $raw -replace ',\s*"dsh-conversation-search"', '' }
-if ($raw2 -ne $raw) { Set-Content "package.json" $raw2 -Encoding UTF8 -NoNewline; Write-Host "已从 bundles/依赖文本移除登记。" }
+# 1) bundles 移除（0.2.10 审查修复：改用 ConvertFrom-Json 结构化移除——
+#    旧正则在「bundles 只剩本插件一项」时不命中，登记残留；
+#    写回用 WriteAllText 无 BOM——PS5.1 的 Set-Content -Encoding UTF8 必写 BOM，
+#    宿主严格 JSON.parse 会拒启动（10-10 BOM 事故同款，install 有自愈而 rollback 没有）。
+$pkgPath = Join-Path $ProfileDir "package.json"
+$json = Get-Content $pkgPath -Raw -Encoding UTF8 | ConvertFrom-Json
+$bundleBefore = @($json.dsh.bundle).Count
+$json.dsh.bundle = @($json.dsh.bundle | Where-Object { $_ -ne $PkgName })
+if (@($json.dsh.bundle).Count -lt $bundleBefore) {
+	[IO.File]::WriteAllText($pkgPath, ($json | ConvertTo-Json -Depth 100), (New-Object Text.UTF8Encoding($false)))
+	Write-Host "已从 bundles 移除登记（无 BOM 写回）。"
+}
 
 # 2) pnpm remove
 $env:pnpm_config_minimum_release_age = "0"
@@ -35,7 +42,13 @@ if ($LASTEXITCODE -ne 0) {
 		Copy-Item "$ProfileDir\package.json.bak-csearch-$stamp" "$ProfileDir\package.json" -Force
 		if (Test-Path "$ProfileDir\cordis.patch.yml.bak-csearch-$stamp") { Copy-Item "$ProfileDir\cordis.patch.yml.bak-csearch-$stamp" "$ProfileDir\cordis.patch.yml" -Force }
 		if (Test-Path "$ProfileDir\pnpm-lock.yaml.bak-csearch-$stamp") { Copy-Item "$ProfileDir\pnpm-lock.yaml.bak-csearch-$stamp" "$ProfileDir\pnpm-lock.yaml" -Force }
-		& pnpm install --dir $ProfileDir 2>&1 | Select-Object -Last 5 | Out-Host
+		# 0.2.10：不再裸依赖 PATH 上的 pnpm；缺失时给出明确手工指引（审查 P3）。
+		$pnpmCmd = Get-Command pnpm -ErrorAction SilentlyContinue
+		if ($pnpmCmd) {
+			& pnpm install --dir $ProfileDir 2>&1 | Select-Object -Last 15 | Out-Host
+		} else {
+			Write-Host "PATH 上没有 pnpm——请手工执行: pnpm install --dir `"$ProfileDir`"" -ForegroundColor Yellow
+		}
 		Write-Host "已按备份 $stamp 还原。" -ForegroundColor Green
 	} else {
 		Write-Host "未找到 .bak-csearch-* 备份，请手工检查 profile。" -ForegroundColor Red

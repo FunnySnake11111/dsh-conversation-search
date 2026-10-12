@@ -109,7 +109,7 @@ if (-not ($installed -and $hasDep -and $hasBundle)) {
 
 Write-Host ""
 Write-Host "安装结束。请启动 DeepSeek Harness Desktop 验证：" -ForegroundColor Green
-Write-Host "  1. 对话页按 Ctrl+Shift+F 打开搜索面板"
+Write-Host "  1. 点对话页输入框旁工具栏的放大镜按钮打开搜索面板"
 Write-Host "  2. 输入历史消息中的词（如之前会话说过的插件名）回车"
 Write-Host "  3. 点击结果：自动切换/滚动定位并高亮；面板展示前后上下文"
 Write-Host "  4. DevTools console 应无 'slot entry crashed' 与本插件 warn"
