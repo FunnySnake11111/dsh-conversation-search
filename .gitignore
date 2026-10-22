@@ -3,3 +3,4 @@ node_modules/
 *.bak
 *.bak-*
 .DS_Store
+.csearch-tmp/

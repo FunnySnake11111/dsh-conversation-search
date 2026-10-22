@@ -1,6 +1,6 @@
 {
   "name": "dsh-conversation-search",
-  "version": "0.2.10",
+  "version": "0.5.12",
   "description": "DeepSeek Harness 对话内容搜索插件：在 Web UI 内搜索当前与全部历史会话的消息文本，点击结果自动切换/滚动定位到命中消息并高亮，面板内展示命中消息的前后上下文。Conversation full-text search for DeepSeek Harness: search the current and all historical sessions, click a hit to auto-navigate, scroll to and highlight the matching message, with bounded before/after context in the panel.",
   "type": "module",
   "main": "lib/index.js",
@@ -53,5 +53,10 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "scripts": {
+    "check": "node --check lib/index.js && node --check lib/datasource.js && node --check lib/datasource.worker.js && node --check lib/client.js && node --check lib/typert.host.js",
+    "test": "node test/regression.mjs",
+    "prepublishOnly": "npm run check && npm test"
   }
 }
