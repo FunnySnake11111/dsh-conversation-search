@@ -2,6 +2,12 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。插件由两半组成：**host 半**（`lib/index.js` 等，改动需完全重启 DSH 生效）与 **client 半**（`lib/client.js`，改动刷新页面即生效）。
 
+## 未发布（仓库整理）
+
+- 删除 `tools/apply-patch.cmd`：它是 0.2.x 时代替换 `app.asar` 的脚本，调用的 `.csearch-tmp/patch-app-asar.mjs` 早已不在仓库内，且文件本身是 GBK 乱码，留着只会误导。
+- 删除 `install.ps1` / `rollback.ps1`：写死了本机路径 `D:\Deepseek Harness Desktop\...`，除作者机器外无法运行；npm 安装方式已覆盖普通用户，README「方式三」同步移除。
+- README「更新记录」段由 30 余条逐版条目压缩为指向本文件的链接，避免与 CHANGELOG 双份维护。
+
 ## 0.5.12
 
 ### 修复
